@@ -24,7 +24,6 @@ import {
   DAI_UNICHAIN,
   DAI_ZKSYNC,
   USDB_BLAST,
-  USDCE_ZKSYNC,
   USDC_ARBITRUM,
   USDC_ARBITRUM_GOERLI,
   USDC_ARBITRUM_SEPOLIA,
@@ -34,6 +33,7 @@ import {
   USDC_BNB,
   USDC_BRIDGED_AVAX,
   USDC_CELO,
+  USDC_EDEN_TESTNET,
   USDC_ETHEREUM_GNOSIS,
   USDC_GOERLI,
   USDC_MAINNET,
@@ -56,6 +56,7 @@ import {
   USDC_WORMHOLE_CELO,
   USDC_ZKSYNC,
   USDC_ZORA,
+  USDCE_ZKSYNC,
   USDT_ARBITRUM,
   USDT_BNB,
   USDT_GOERLI,
@@ -85,6 +86,7 @@ import {
 // from tokens with highest decimals to lowest decimals. For example,
 // DAI_AVAX has 18 decimals and comes before USDC_AVAX which has 6 decimals.
 export const usdGasTokensByChain: { [chainId in ChainId]?: Token[] } = {
+  [ChainId.EDEN_TESTNET]: [USDC_EDEN_TESTNET],
   [ChainId.MAINNET]: [DAI_MAINNET, USDC_MAINNET, USDT_MAINNET],
   [ChainId.ARBITRUM_ONE]: [
     DAI_ARBITRUM,

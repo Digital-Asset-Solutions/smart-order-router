@@ -28,11 +28,22 @@
     "listEmittedFiles": false /* Print names of generated files part of the compilation. */,
     "listFiles": false /* Print names of files part of the compilation. */,
     "pretty": true /* Stylize errors and messages using color and context. */,
+    "skipLibCheck": true,
     /* Experimental Options */
     // "experimentalDecorators": true /* Enables experimental support for ES7 decorators. */,
     // "emitDecoratorMetadata": true /* Enables experimental support for emitting type metadata for decorators. */,
     "lib": ["es2017", "dom"],
-    "types": ["node", "jest"]
+    "types": ["node", "jest"],
+    "baseUrl": ".",
+    "paths": {
+      "@uniswap/sdk-core": ["sdks/sdks/sdk-core"],
+      "@uniswap/v2-sdk": ["sdks/sdks/v2-sdk"],
+      "@uniswap/v3-sdk": ["sdks/sdks/v3-sdk"],
+      "@uniswap/v4-sdk": ["sdks/sdks/v4-sdk"],
+      "@uniswap/router-sdk": ["sdks/sdks/router-sdk"],
+      "@uniswap/universal-router-sdk": ["sdks/sdks/universal-router-sdk"]
+    },
+    "useUnknownInCatchVariables": false
   },
   "include": ["src/index.ts"],
   "compileOnSave": false

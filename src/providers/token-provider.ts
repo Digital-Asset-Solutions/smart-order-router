@@ -805,6 +805,46 @@ export const USDC_SONEIUM = new Token(
   'Soneium Bridged USDC Soneium'
 );
 
+export const USDC_EDEN_TESTNET = new Token(
+  ChainId.EDEN_TESTNET,
+  '0x314DBE138c155d27Cd70c2435A411102Df7CA774',
+  6,
+  'USDC',
+  'USDC Token'
+);
+
+export const FAKE_WETH_EDEN_TESTNET = new Token(
+  ChainId.EDEN_TESTNET,
+  '0x0d3597CD03a42e523CF6ebB56b216b9c2b6EF6a2',
+  18,
+  'WETH',
+  'Wrapped Ether'
+);
+
+export const ZONGO_EDEN_TESTNET = new Token(
+  ChainId.EDEN_TESTNET,
+  '0xdb408CBbb11938f0bADb3eFA998631F85C114D4B',
+  18,
+  'ZONGO',
+  'Zongo'
+);
+
+export const BTC_EDEN_TESTNET = new Token(
+  ChainId.EDEN_TESTNET,
+  '0xaBd9cf1Bc5bCb7C1927BF4dECF44789644877e09',
+  18,
+  'BTC',
+  'Bitcoin'
+);
+
+export const DOZOUSD_EDEN_TESTNET = new Token(
+  ChainId.EDEN_TESTNET,
+  '0x2294657125076661A89563FD95524a68283fa579',
+  18,
+  'DOZOUSD',
+  'Dozo USD'
+);
+
 export class TokenProvider implements ITokenProvider {
   constructor(
     private chainId: ChainId,

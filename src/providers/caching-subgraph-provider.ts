@@ -9,6 +9,7 @@ import { ProviderConfig } from './provider';
 import {
   ARB_ARBITRUM,
   BTC_BNB,
+  BTC_EDEN_TESTNET,
   BUSD_BNB,
   CELO,
   CEUR_CELO,
@@ -21,15 +22,16 @@ import {
   DAI_MOONBEAM,
   DAI_OPTIMISM,
   DAI_UNICHAIN,
+  DOZOUSD_EDEN_TESTNET,
   ETH_BNB,
   OP_OPTIMISM,
   USDB_BLAST,
-  USDCE_ZKSYNC,
   USDC_ARBITRUM,
   USDC_AVAX,
   USDC_BASE,
   USDC_BASE_SEPOLIA,
   USDC_BNB,
+  USDC_EDEN_TESTNET,
   USDC_MAINNET,
   USDC_MOONBEAM,
   USDC_NATIVE_ARBITRUM,
@@ -40,6 +42,7 @@ import {
   USDC_UNICHAIN_SEPOLIA,
   USDC_WORLDCHAIN,
   USDC_ZKSYNC,
+  USDCE_ZKSYNC,
   USDT_ARBITRUM,
   USDT_BNB,
   USDT_MAINNET,
@@ -54,6 +57,7 @@ import {
   WLD_WORLDCHAIN,
   WMATIC_POLYGON,
   WSTETH_MAINNET,
+  ZONGO_EDEN_TESTNET,
 } from './token-provider';
 import { V3SubgraphPool } from './v3/subgraph-provider';
 
@@ -62,6 +66,14 @@ type ChainTokenList = {
 };
 
 export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
+  [ChainId.EDEN_TESTNET]: [
+    nativeOnChain(ChainId.EDEN_TESTNET),
+    WRAPPED_NATIVE_CURRENCY[ChainId.EDEN_TESTNET]!,
+    USDC_EDEN_TESTNET,
+    ZONGO_EDEN_TESTNET,
+    BTC_EDEN_TESTNET,
+    DOZOUSD_EDEN_TESTNET,
+  ],
   [ChainId.MAINNET]: [
     nativeOnChain(ChainId.MAINNET),
     WRAPPED_NATIVE_CURRENCY[ChainId.MAINNET]!,

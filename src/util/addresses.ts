@@ -1,6 +1,7 @@
+import { ADDRESS_ZERO } from '@uniswap/router-sdk';
 import {
-  ChainId,
   CHAIN_TO_ADDRESSES_MAP,
+  ChainId,
   Currency,
   SWAP_ROUTER_02_ADDRESSES as SWAP_ROUTER_02_ADDRESSES_HELPER,
   Token,
@@ -8,7 +9,6 @@ import {
 } from '@uniswap/sdk-core';
 import { FACTORY_ADDRESS } from '@uniswap/v3-sdk';
 
-import { ADDRESS_ZERO } from '@uniswap/router-sdk';
 import { NETWORKS_WITH_SAME_UNISWAP_ADDRESSES } from './chains';
 
 export const BNB_TICK_LENS_ADDRESS =
@@ -57,6 +57,8 @@ export const V3_CORE_FACTORY_ADDRESSES: AddressMap = {
     CHAIN_TO_ADDRESSES_MAP[ChainId.UNICHAIN].v3CoreFactoryAddress,
   [ChainId.SONEIUM]:
     CHAIN_TO_ADDRESSES_MAP[ChainId.SONEIUM].v3CoreFactoryAddress,
+  [ChainId.EDEN_TESTNET]:
+    CHAIN_TO_ADDRESSES_MAP[ChainId.EDEN_TESTNET].v3CoreFactoryAddress,
 };
 
 export const QUOTER_V2_ADDRESSES: AddressMap = {
@@ -92,6 +94,8 @@ export const QUOTER_V2_ADDRESSES: AddressMap = {
   // TODO: Gnosis + Moonbeam contracts to be deployed
   [ChainId.UNICHAIN]: CHAIN_TO_ADDRESSES_MAP[ChainId.UNICHAIN].quoterAddress,
   [ChainId.SONEIUM]: CHAIN_TO_ADDRESSES_MAP[ChainId.SONEIUM].quoterAddress,
+  [ChainId.EDEN_TESTNET]:
+    CHAIN_TO_ADDRESSES_MAP[ChainId.EDEN_TESTNET].quoterAddress,
 };
 
 export const NEW_QUOTER_V2_ADDRESSES: AddressMap = {
@@ -118,6 +122,8 @@ export const NEW_QUOTER_V2_ADDRESSES: AddressMap = {
     CHAIN_TO_ADDRESSES_MAP[ChainId.BASE_SEPOLIA].quoterAddress,
   [ChainId.UNICHAIN]: CHAIN_TO_ADDRESSES_MAP[ChainId.UNICHAIN].quoterAddress, // TODO: deploy view-only-quoter to unichain
   [ChainId.SONEIUM]: CHAIN_TO_ADDRESSES_MAP[ChainId.SONEIUM].quoterAddress,
+  [ChainId.EDEN_TESTNET]:
+    CHAIN_TO_ADDRESSES_MAP[ChainId.EDEN_TESTNET].quoterAddress,
 };
 
 export const PROTOCOL_V4_QUOTER_ADDRESSES: AddressMap = {
@@ -209,6 +215,8 @@ export const UNISWAP_MULTICALL_ADDRESSES: AddressMap = {
   // TODO: Gnosis + Moonbeam contracts to be deployed
   [ChainId.UNICHAIN]: CHAIN_TO_ADDRESSES_MAP[ChainId.UNICHAIN].multicallAddress,
   [ChainId.SONEIUM]: CHAIN_TO_ADDRESSES_MAP[ChainId.SONEIUM].multicallAddress,
+  [ChainId.EDEN_TESTNET]:
+    CHAIN_TO_ADDRESSES_MAP[ChainId.EDEN_TESTNET].multicallAddress,
 };
 
 export const SWAP_ROUTER_02_ADDRESSES = (chainId: number): string => {
@@ -281,6 +289,7 @@ export const WETH9: {
     | ChainId.ROOTSTOCK
   >]: Token;
 } = {
+  [ChainId.EDEN_TESTNET]: WETH9_HELPER[ChainId.EDEN_TESTNET]!,
   [ChainId.MAINNET]: WETH9_HELPER[ChainId.MAINNET]!,
   [ChainId.GOERLI]: WETH9_HELPER[ChainId.GOERLI]!,
   [ChainId.SEPOLIA]: WETH9_HELPER[ChainId.SEPOLIA]!,

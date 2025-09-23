@@ -32,6 +32,7 @@ export const SUPPORTED_CHAINS: ChainId[] = [
   ChainId.MONAD_TESTNET,
   ChainId.BASE_SEPOLIA,
   ChainId.SONEIUM,
+  ChainId.EDEN_TESTNET,
   // Gnosis and Moonbeam don't yet have contracts deployed yet
 ];
 
@@ -169,6 +170,8 @@ export const ID_TO_CHAIN_ID = (id: number): ChainId => {
       return ChainId.UNICHAIN;
     case 1868:
       return ChainId.SONEIUM;
+    case 3735928814:
+      return ChainId.EDEN_TESTNET;
     default:
       throw new Error(`Unknown chain id: ${id}`);
   }
@@ -203,6 +206,7 @@ export enum ChainName {
   UNICHAIN = 'unichain-mainnet',
   MONAD_TESTNET = 'monad-testnet',
   SONEIUM = 'soneium-mainnet',
+  EDEN_TESTNET = 'eden-testnet',
 }
 
 export enum NativeCurrencyName {
@@ -215,9 +219,15 @@ export enum NativeCurrencyName {
   BNB = 'BNB',
   AVALANCHE = 'AVAX',
   MONAD = 'MON',
+  EDEN = 'ETH',
 }
 
 export const NATIVE_NAMES_BY_ID: { [chainId: number]: string[] } = {
+  [ChainId.EDEN_TESTNET]: [
+    'ETH',
+    'ETHER',
+    '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+  ],
   [ChainId.MAINNET]: [
     'ETH',
     'ETHER',
@@ -358,6 +368,7 @@ export const NATIVE_CURRENCY: { [chainId: number]: NativeCurrencyName } = {
   [ChainId.BASE_SEPOLIA]: NativeCurrencyName.ETHER,
   [ChainId.UNICHAIN]: NativeCurrencyName.ETHER,
   [ChainId.SONEIUM]: NativeCurrencyName.ETHER,
+  [ChainId.EDEN_TESTNET]: NativeCurrencyName.ETHER,
 };
 
 export const ID_TO_NETWORK_NAME = (id: number): ChainName => {
@@ -418,6 +429,8 @@ export const ID_TO_NETWORK_NAME = (id: number): ChainName => {
       return ChainName.MONAD_TESTNET;
     case 1868:
       return ChainName.SONEIUM;
+    case 3735928814:
+      return ChainName.EDEN_TESTNET;
     default:
       throw new Error(`Unknown chain id: ${id}`);
   }
@@ -429,6 +442,8 @@ export const CHAIN_IDS_LIST = Object.values(ChainId).map((c) =>
 
 export const ID_TO_PROVIDER = (id: ChainId): string => {
   switch (id) {
+    case ChainId.EDEN_TESTNET:
+      return process.env.JSON_RPC_PROVIDER_EDEN_TESTNET!;
     case ChainId.MAINNET:
       return process.env.JSON_RPC_PROVIDER!;
     case ChainId.GOERLI:
@@ -485,6 +500,13 @@ export const ID_TO_PROVIDER = (id: ChainId): string => {
 };
 
 export const WRAPPED_NATIVE_CURRENCY: { [chainId in ChainId]: Token } = {
+  [ChainId.EDEN_TESTNET]: new Token(
+    3735928814,
+    '0xBBddbb5122e82feD504470E26cA6bb508c1D322f',
+    18,
+    'WETH',
+    'Wrapped Ether'
+  ),
   [ChainId.MAINNET]: new Token(
     1,
     '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',

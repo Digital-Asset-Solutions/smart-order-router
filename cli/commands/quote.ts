@@ -3,7 +3,7 @@ import { flags } from '@oclif/command';
 import { Protocol } from '@uniswap/router-sdk';
 import { Currency, Percent, TradeType } from '@uniswap/sdk-core';
 import dotenv from 'dotenv';
-import _ from 'lodash';
+import _, { toInteger } from 'lodash';
 
 import {
   ID_TO_CHAIN_ID,
@@ -15,7 +15,7 @@ import {
 } from '../../src';
 import { NATIVE_NAMES_BY_ID, TO_PROTOCOL } from '../../src/util';
 import { BaseCommand } from '../base-command';
-import { UniversalRouterVersion } from '@uniswap/universal-router-sdk';
+// import { UniversalRouterVersion } from '@uniswap/universal-router-sdk';
 
 dotenv.config();
 
@@ -141,12 +141,13 @@ export class Quote extends BaseCommand {
         TradeType.EXACT_INPUT,
         recipient
           ? {
-            type: SwapType.UNIVERSAL_ROUTER,
-            deadlineOrPreviousBlockhash: 10000000000000,
+            type: SwapType.SWAP_ROUTER_02,
+            // deadlineOrPreviousBlockhash: toInteger((new Date().getTime() + 1000 * 60) / 1000), // 1 minute
+            deadline: toInteger((new Date().getTime() + 1000 * 60) / 1000), // 1 minute
             recipient,
-            slippageTolerance: new Percent(5, 100),
+            slippageTolerance: new Percent(5, 10_000),
             simulate: simulate ? { fromAddress: recipient } : undefined,
-            version: UniversalRouterVersion.V2_0
+            // version: UniversalRouterVersion.V2_0
           }
           : undefined,
         {
@@ -182,7 +183,7 @@ export class Quote extends BaseCommand {
         recipient
           ? {
             type: SwapType.SWAP_ROUTER_02,
-            deadline: 100,
+            deadline: toInteger((new Date().getTime() + 1000 * 60) / 1000), // 1 minute
             recipient,
             slippageTolerance: new Percent(5, 10_000),
           }

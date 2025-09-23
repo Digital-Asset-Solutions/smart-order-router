@@ -271,6 +271,52 @@ Total ticks crossed: 7
 ./bin/cli quote --tokenIn 0x4200000000000000000000000000000000000006 --tokenOut 0xbA9986D2381edf1DA03B0B9c1f8b00dc4AacC369 --amount 0.1 --exactIn --minSplits 1 --protocols v3 --router alpha --chainId 1868
 ```
 
+## Local SDKs workspace setup
+
+Use the local sdks fork (in `sdks/sdks/*`) instead of npm packages.
+
+### Install
+
+```
+git submodule update --init --recursive
+yarn install
+```
+
+### Build sdks, then root
+
+```
+# build all sdks workspaces (tsdx dist/)
+yarn --cwd sdks g:build
+
+# build root (typechain + tsc)
+yarn build
+```
+
+### Clean rebuild
+
+```
+rm -rf node_modules sdks/node_modules
+yarn install
+yarn --cwd sdks g:build
+yarn build
+```
+
+### Rebuild a single sdk package (optional)
+
+```
+yarn --cwd sdks sdk @uniswap/router-sdk build
+```
+
+### Troubleshooting
+
+- Unexpected pool type in route when constructing trade object
+  - Cause: duplicate SDK copies loaded (nested `sdks/node_modules`).
+  - Fix:
+    ```
+    rm -rf sdks/node_modules
+    yarn install
+    ```
+
 ## Adding a new Chain
 
 The main components to complete are:
