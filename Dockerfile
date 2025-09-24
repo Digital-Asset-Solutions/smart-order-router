@@ -11,8 +11,18 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /app
 
-# Copy repository (includes local sdks workspace)
+# Copy repository (expects local sdks workspace present, or .git to fetch submodules)
 COPY . .
+
+# If sdks workspace missing, clone it directly (works even without .git in context)
+ARG SDKS_REPO_URL=https://github.com/Digital-Asset-Solutions/sdks
+ARG SDKS_REF=main
+RUN if [ ! -f sdks/package.json ]; then \
+      echo "sdks workspace missing; cloning $SDKS_REPO_URL@$SDKS_REF" && \
+      rm -rf sdks && \
+      git clone "$SDKS_REPO_URL" sdks && \
+      (cd sdks && git checkout "$SDKS_REF" || true); \
+    fi
 
 # Use the Yarn version pinned in package.json via Corepack
 RUN corepack enable
