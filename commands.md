@@ -18,7 +18,8 @@ curl -X POST http://localhost:3000/quote \
     "minSplits": 1,
     "protocols": "v3",
     "chainId": 3735928814,
-    "recipient": "0x7554ee28c15e61D9B3CEbcC9F5CAcE7742830B05"
+    "recipient": "0x7554ee28c15e61D9B3CEbcC9F5CAcE7742830B05",
+    "simulate": true
   }'
 
 

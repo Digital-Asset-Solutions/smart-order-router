@@ -437,7 +437,7 @@ class QuoteService {
                 value: methodParameters.value,
               }
             : undefined,
-          quote: quote.toFixed(Math.min(quote.currency.decimals, 2)),
+          quote: quote.toExact(),
           quoteGasAdjusted: quoteGasAdjusted.toFixed(
             Math.min(quoteGasAdjusted.currency.decimals, 2)
           ),

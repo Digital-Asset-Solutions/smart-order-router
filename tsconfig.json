@@ -45,6 +45,6 @@
     },
     "useUnknownInCatchVariables": false
   },
-  "include": ["src/index.ts"],
+  "include": ["src/index.ts", "src/api/server.ts"],
   "compileOnSave": false
 }
