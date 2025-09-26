@@ -1,6 +1,6 @@
-WETH USDC
+DUSD DAI
 
-./bin/cli quote --tokenIn 0x314DBE138c155d27Cd70c2435A411102Df7CA774 --tokenOut 0x0d3597CD03a42e523CF6ebB56b216b9c2b6EF6a2 --amount 1 --exactIn --minSplits 1 --protocols v3 --router alpha --chainId 3735928814
+./bin/cli quote --tokenIn 0x2294657125076661A89563FD95524a68283fa579 --tokenOut 0x19d329233a007aD9190E9f5Ef3675D24AfEdB2E9 --amount 1 --exactIn --minSplits 1 --protocols v3 --router alpha --chainId 3735928814
 
 WETH ZANGO
 ./bin/cli quote --tokenIn 0x0d3597CD03a42e523CF6ebB56b216b9c2b6EF6a2 --tokenOut 0xdb408CBbb11938f0bADb3eFA998631F85C114D4B --amount 1 --exactIn --minSplits 1 --protocols v3 --router legacy --chainId 3735928814 --debug --simulate
@@ -11,9 +11,9 @@ BTC ZANGO
 curl -X POST http://localhost:3000/quote \
   -H "Content-Type: application/json" \
   -d '{
-    "tokenIn": "0xaBd9cf1Bc5bCb7C1927BF4dECF44789644877e09",
-    "tokenOut": "0xdb408CBbb11938f0bADb3eFA998631F85C114D4B",
-    "amount": "0.01",
+    "tokenIn": "0x2294657125076661A89563FD95524a68283fa579",
+    "tokenOut": "0x19d329233a007aD9190E9f5Ef3675D24AfEdB2E9",
+    "amount": "1",
     "exactIn": true,
     "minSplits": 1,
     "protocols": "v3",
