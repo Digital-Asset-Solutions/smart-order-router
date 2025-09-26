@@ -1,10 +1,14 @@
 import { Logger } from '@ethersproject/logger';
+import { JsonRpcProvider } from '@ethersproject/providers';
+import DEFAULT_TOKEN_LIST from '@uniswap/default-token-list';
 import { Protocol } from '@uniswap/router-sdk';
 import { Currency, Percent, TradeType } from '@uniswap/sdk-core';
+import { ChainId, Token } from '@uniswap/sdk-core';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import express, { Request, Response } from 'express';
 import _, { toInteger } from 'lodash';
+import NodeCache from 'node-cache';
 
 import {
   AlphaRouter,
@@ -27,19 +31,16 @@ import {
   V3PoolProvider,
   V4PoolProvider,
 } from '../index';
-import { ChainId, Token } from '@uniswap/sdk-core';
-import { ID_TO_PROVIDER, NATIVE_NAMES_BY_ID, TO_PROTOCOL } from '../util';
-import { LegacyGasPriceProvider } from '../providers/legacy-gas-price-provider';
-import { PortionProvider } from '../providers/portion-provider';
-import { OnChainTokenFeeFetcher } from '../providers/token-fee-fetcher';
-import { TokenPropertiesProvider } from '../providers/token-properties-provider';
 import { EIP1559GasPriceProvider } from '../providers/eip-1559-gas-price-provider';
 import { EthEstimateGasSimulator } from '../providers/eth-estimate-gas-provider';
+import { LegacyGasPriceProvider } from '../providers/legacy-gas-price-provider';
+import { PortionProvider } from '../providers/portion-provider';
 import { FallbackTenderlySimulator } from '../providers/tenderly-simulation-provider';
 import { TenderlySimulator } from '../providers/tenderly-simulation-provider';
-import { JsonRpcProvider } from '@ethersproject/providers';
-import NodeCache from 'node-cache';
-import DEFAULT_TOKEN_LIST from '@uniswap/default-token-list';
+import { OnChainTokenFeeFetcher } from '../providers/token-fee-fetcher';
+import { TokenPropertiesProvider } from '../providers/token-properties-provider';
+import { ID_TO_PROVIDER, NATIVE_NAMES_BY_ID, TO_PROTOCOL } from '../util';
+
 
 dotenv.config();
 
@@ -303,7 +304,7 @@ class QuoteService {
           if (entryParts.length != 2) {
             throw new Error('topNSecondHopForTokenAddressRaw must be in format tokenAddress|topN,...');
           }
-          const topNForTokenAddress: number = Number(entryParts[1]!);
+          const topNForTokenAddress = Number(entryParts[1]!);
           topNSecondHopForTokenAddress.set(entryParts[0]!, topNForTokenAddress);
         }
       });
@@ -328,7 +329,7 @@ class QuoteService {
           recipient
             ? {
                 type: SwapType.SWAP_ROUTER_02,
-                deadline: toInteger((new Date().getTime() + 1000 * 60) / 1000), // 1 minute
+                deadline: toInteger((new Date().getTime() + 1000 * 60 * 10) / 1000), // 10 minutes
                 recipient,
                 slippageTolerance: new Percent(Math.floor(slippageTolerance * 100), 10_000),
                 simulate: simulate ? { fromAddress: recipient } : undefined,
