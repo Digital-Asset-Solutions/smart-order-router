@@ -102,7 +102,6 @@ interface QuoteResponse {
 class QuoteService {
   private router: AlphaRouter | null = null;
   private tokenProvider: CachingTokenProviderWithFallback | null = null;
-  private blockNumber: number | null = null;
   private chainId: ChainId;
 
   constructor(chainId: ChainId = ChainId.MAINNET) {
@@ -121,10 +120,7 @@ class QuoteService {
     );
     console.log(`✅ RPC provider created in ${Date.now() - providerStart}ms`);
 
-    console.log('🔢 Fetching current block number...');
-    const blockStart = Date.now();
-    this.blockNumber = await provider.getBlockNumber();
-    console.log(`✅ Current block number: ${this.blockNumber} (took ${Date.now() - blockStart}ms)`);
+    // Do not cache a block number at startup; let the router fetch the latest per-request.
 
     console.log('💾 Creating token cache...');
     const tokenCache = new NodeJSCache<Token>(
@@ -246,7 +242,7 @@ class QuoteService {
 
   async getQuote(request: QuoteRequest): Promise<QuoteResponse> {
     try {
-      if (!this.router || !this.tokenProvider || !this.blockNumber) {
+      if (!this.router || !this.tokenProvider) {
         throw new Error('Service not initialized');
       }
 
@@ -336,7 +332,8 @@ class QuoteService {
               }
             : undefined,
           {
-            blockNumber: requestBlockNumber ?? this.blockNumber,
+            // Use the caller-provided block number if any; otherwise let the router use latest.
+            blockNumber: requestBlockNumber,
             v3PoolSelection: {
               topN,
               topNTokenInOut,
@@ -373,7 +370,7 @@ class QuoteService {
               }
             : undefined,
           {
-            blockNumber: this.blockNumber - 10,
+            blockNumber: requestBlockNumber,
             v3PoolSelection: {
               topN,
               topNTokenInOut,
