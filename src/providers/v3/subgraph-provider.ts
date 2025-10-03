@@ -62,6 +62,8 @@ const SUBGRAPH_URL_BY_CHAIN: { [chainId in ChainId]?: string } = {
     'https://gateway-arbitrum.network.thegraph.com/api/0ae45f0bf40ae2e73119b44ccd755967/subgraphs/id/2LHovKznvo8YmKC9ZprPjsYAZDCc4K5q4AYz8s3cnQn1',
   [ChainId.EDEN_TESTNET]:
     'https://api.goldsky.com/api/public/project_cmfv8bj7kvt5b01xyc3ixbole/subgraphs/eden-testnet-v3-subgraph/1.0.0/gn',
+  [ChainId.SOMNIA]:
+    'https://subgraph.somnia.network/dashboard/subgraph/somnia-v3/v0.0.1',
 };
 
 /**
