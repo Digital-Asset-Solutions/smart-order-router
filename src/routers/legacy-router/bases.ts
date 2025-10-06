@@ -32,7 +32,6 @@ import {
   WMATIC_POLYGON_MUMBAI,
   USDC_SOMNIA,
   USDT_SOMNIA,
-  WSOMI_SOMNIA,
 } from '../../providers/token-provider';
 import { WRAPPED_NATIVE_CURRENCY } from '../../util/chains';
 
