@@ -1,3 +1,4 @@
 [submodule "sdks"]
 	path = sdks
 	url = https://github.com/Digital-Asset-Solutions/sdks
+	branch = main
