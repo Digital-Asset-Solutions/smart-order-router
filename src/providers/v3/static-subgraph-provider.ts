@@ -78,6 +78,8 @@ import {
   WSTETH_MAINNET,
   WXDAI_GNOSIS,
   ZONGO_EDEN_TESTNET,
+  USDC_SOMNIA,
+  USDT_SOMNIA,
 } from '../token-provider';
 
 import { IV3PoolProvider } from './pool-provider';
@@ -218,6 +220,11 @@ const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
     ZONGO_EDEN_TESTNET,
     BTC_EDEN_TESTNET,
     DOZOUSD_EDEN_TESTNET,
+  ],
+  [ChainId.SOMNIA]: [
+    WRAPPED_NATIVE_CURRENCY[ChainId.SOMNIA]!,
+    USDC_SOMNIA,
+    USDT_SOMNIA,
   ],
 };
 

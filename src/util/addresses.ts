@@ -59,6 +59,8 @@ export const V3_CORE_FACTORY_ADDRESSES: AddressMap = {
     CHAIN_TO_ADDRESSES_MAP[ChainId.SONEIUM].v3CoreFactoryAddress,
   [ChainId.EDEN_TESTNET]:
     CHAIN_TO_ADDRESSES_MAP[ChainId.EDEN_TESTNET].v3CoreFactoryAddress,
+  [ChainId.SOMNIA]:
+    CHAIN_TO_ADDRESSES_MAP[ChainId.SOMNIA].v3CoreFactoryAddress,
 };
 
 export const QUOTER_V2_ADDRESSES: AddressMap = {
@@ -96,6 +98,7 @@ export const QUOTER_V2_ADDRESSES: AddressMap = {
   [ChainId.SONEIUM]: CHAIN_TO_ADDRESSES_MAP[ChainId.SONEIUM].quoterAddress,
   [ChainId.EDEN_TESTNET]:
     CHAIN_TO_ADDRESSES_MAP[ChainId.EDEN_TESTNET].quoterAddress,
+  [ChainId.SOMNIA]: CHAIN_TO_ADDRESSES_MAP[ChainId.SOMNIA].quoterAddress,
 };
 
 export const NEW_QUOTER_V2_ADDRESSES: AddressMap = {
@@ -124,6 +127,7 @@ export const NEW_QUOTER_V2_ADDRESSES: AddressMap = {
   [ChainId.SONEIUM]: CHAIN_TO_ADDRESSES_MAP[ChainId.SONEIUM].quoterAddress,
   [ChainId.EDEN_TESTNET]:
     CHAIN_TO_ADDRESSES_MAP[ChainId.EDEN_TESTNET].quoterAddress,
+  [ChainId.SOMNIA]: CHAIN_TO_ADDRESSES_MAP[ChainId.SOMNIA].quoterAddress,
 };
 
 export const PROTOCOL_V4_QUOTER_ADDRESSES: AddressMap = {
@@ -217,6 +221,7 @@ export const UNISWAP_MULTICALL_ADDRESSES: AddressMap = {
   [ChainId.SONEIUM]: CHAIN_TO_ADDRESSES_MAP[ChainId.SONEIUM].multicallAddress,
   [ChainId.EDEN_TESTNET]:
     CHAIN_TO_ADDRESSES_MAP[ChainId.EDEN_TESTNET].multicallAddress,
+  [ChainId.SOMNIA]: CHAIN_TO_ADDRESSES_MAP[ChainId.SOMNIA].multicallAddress,
 };
 
 export const SWAP_ROUTER_02_ADDRESSES = (chainId: number): string => {
@@ -290,6 +295,7 @@ export const WETH9: {
   >]: Token;
 } = {
   [ChainId.EDEN_TESTNET]: WETH9_HELPER[ChainId.EDEN_TESTNET]!,
+  [ChainId.SOMNIA]: WETH9_HELPER[ChainId.SOMNIA]!,
   [ChainId.MAINNET]: WETH9_HELPER[ChainId.MAINNET]!,
   [ChainId.GOERLI]: WETH9_HELPER[ChainId.GOERLI]!,
   [ChainId.SEPOLIA]: WETH9_HELPER[ChainId.SEPOLIA]!,

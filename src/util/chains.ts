@@ -33,6 +33,7 @@ export const SUPPORTED_CHAINS: ChainId[] = [
   ChainId.BASE_SEPOLIA,
   ChainId.SONEIUM,
   ChainId.EDEN_TESTNET,
+  ChainId.SOMNIA,
   // Gnosis and Moonbeam don't yet have contracts deployed yet
 ];
 
@@ -172,6 +173,8 @@ export const ID_TO_CHAIN_ID = (id: number): ChainId => {
       return ChainId.SONEIUM;
     case 3735928814:
       return ChainId.EDEN_TESTNET;
+    case 5031:
+      return ChainId.SOMNIA;
     default:
       throw new Error(`Unknown chain id: ${id}`);
   }
@@ -207,6 +210,7 @@ export enum ChainName {
   MONAD_TESTNET = 'monad-testnet',
   SONEIUM = 'soneium-mainnet',
   EDEN_TESTNET = 'eden-testnet',
+  SOMNIA = 'somnia-mainnet',
 }
 
 export enum NativeCurrencyName {
@@ -220,6 +224,7 @@ export enum NativeCurrencyName {
   AVALANCHE = 'AVAX',
   MONAD = 'MON',
   EDEN = 'ETH',
+  SOMNIA = 'SOMI',
 }
 
 export const NATIVE_NAMES_BY_ID: { [chainId: number]: string[] } = {
@@ -338,6 +343,11 @@ export const NATIVE_NAMES_BY_ID: { [chainId: number]: string[] } = {
     'ETHER',
     '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
   ],
+  [ChainId.SOMNIA]: [
+    'SOMI',
+    'SOMNIA',
+    '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+  ],
 };
 
 export const NATIVE_CURRENCY: { [chainId: number]: NativeCurrencyName } = {
@@ -369,6 +379,7 @@ export const NATIVE_CURRENCY: { [chainId: number]: NativeCurrencyName } = {
   [ChainId.UNICHAIN]: NativeCurrencyName.ETHER,
   [ChainId.SONEIUM]: NativeCurrencyName.ETHER,
   [ChainId.EDEN_TESTNET]: NativeCurrencyName.ETHER,
+  [ChainId.SOMNIA]: NativeCurrencyName.SOMNIA,
 };
 
 export const ID_TO_NETWORK_NAME = (id: number): ChainName => {
@@ -431,6 +442,8 @@ export const ID_TO_NETWORK_NAME = (id: number): ChainName => {
       return ChainName.SONEIUM;
     case 3735928814:
       return ChainName.EDEN_TESTNET;
+    case 5031:
+      return ChainName.SOMNIA;
     default:
       throw new Error(`Unknown chain id: ${id}`);
   }
@@ -494,6 +507,8 @@ export const ID_TO_PROVIDER = (id: ChainId): string => {
       return process.env.JSON_RPC_PROVIDER_UNICHAIN!;
     case ChainId.SONEIUM:
       return process.env.JSON_RPC_PROVIDER_SONEIUM!;
+    case ChainId.SOMNIA:
+      return process.env.JSON_RPC_PROVIDER_SOMNIA!;
     default:
       throw new Error(`Chain id: ${id} not supported`);
   }
@@ -718,6 +733,13 @@ export const WRAPPED_NATIVE_CURRENCY: { [chainId in ChainId]: Token } = {
     18,
     'WETH',
     'Wrapped Ether'
+  ),
+  [ChainId.SOMNIA]: new Token(
+    ChainId.SOMNIA,
+    '0x046EDe9564A72571df6F5e44d0405360c0f4dCab',
+    18,
+    'SOMI',
+    'Wrapped SOMI'
   ),
 };
 

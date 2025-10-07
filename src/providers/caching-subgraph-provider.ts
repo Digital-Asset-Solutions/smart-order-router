@@ -58,6 +58,8 @@ import {
   WMATIC_POLYGON,
   WSTETH_MAINNET,
   ZONGO_EDEN_TESTNET,
+  USDC_SOMNIA,
+  USDT_SOMNIA,
 } from './token-provider';
 import { V3SubgraphPool } from './v3/subgraph-provider';
 
@@ -73,6 +75,12 @@ export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
     ZONGO_EDEN_TESTNET,
     BTC_EDEN_TESTNET,
     DOZOUSD_EDEN_TESTNET,
+  ],
+  [ChainId.SOMNIA]: [
+    nativeOnChain(ChainId.SOMNIA),
+    WRAPPED_NATIVE_CURRENCY[ChainId.SOMNIA]!,
+    USDC_SOMNIA,
+    USDT_SOMNIA,
   ],
   [ChainId.MAINNET]: [
     nativeOnChain(ChainId.MAINNET),

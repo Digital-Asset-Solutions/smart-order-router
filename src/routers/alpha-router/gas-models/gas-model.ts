@@ -66,6 +66,8 @@ import {
   USDT_OPTIMISM_GOERLI,
   USDT_OPTIMISM_SEPOLIA,
   WBTC_GOERLI,
+  USDC_SOMNIA,
+  USDT_SOMNIA,
 } from '../../../providers/token-provider';
 import { IV2PoolProvider } from '../../../providers/v2/pool-provider';
 import {
@@ -87,6 +89,7 @@ import {
 // DAI_AVAX has 18 decimals and comes before USDC_AVAX which has 6 decimals.
 export const usdGasTokensByChain: { [chainId in ChainId]?: Token[] } = {
   [ChainId.EDEN_TESTNET]: [USDC_EDEN_TESTNET],
+  [ChainId.SOMNIA]: [USDC_SOMNIA, USDT_SOMNIA],
   [ChainId.MAINNET]: [DAI_MAINNET, USDC_MAINNET, USDT_MAINNET],
   [ChainId.ARBITRUM_ONE]: [
     DAI_ARBITRUM,

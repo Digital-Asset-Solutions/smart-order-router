@@ -845,6 +845,30 @@ export const DOZOUSD_EDEN_TESTNET = new Token(
   'Dozo USD'
 );
 
+export const WSOMI_SOMNIA = new Token(
+  ChainId.SOMNIA,
+  '0x046EDe9564A72571df6F5e44d0405360c0f4dCab',
+  18,
+  'WSOMI',
+  'Wrapped SOMI'
+);
+
+export const USDC_SOMNIA = new Token(
+  ChainId.SOMNIA,
+  '0x28BEc7E30E6faee657a03e19Bf1128AaD7632A00',
+  6,
+  'USDC',
+  'USDC Token'
+);
+
+export const USDT_SOMNIA = new Token(
+  ChainId.SOMNIA,
+  '0x67B302E35Aef5EEE8c32D934F5856869EF428330',
+  6,
+  'USDT',
+  'USDT Token'
+);
+
 export class TokenProvider implements ITokenProvider {
   constructor(
     private chainId: ChainId,

@@ -39,7 +39,7 @@ import { FallbackTenderlySimulator } from '../providers/tenderly-simulation-prov
 import { TenderlySimulator } from '../providers/tenderly-simulation-provider';
 import { OnChainTokenFeeFetcher } from '../providers/token-fee-fetcher';
 import { TokenPropertiesProvider } from '../providers/token-properties-provider';
-import { ID_TO_PROVIDER, NATIVE_NAMES_BY_ID, TO_PROTOCOL } from '../util';
+import { ID_TO_CHAIN_ID, ID_TO_PROVIDER, NATIVE_NAMES_BY_ID, TO_PROTOCOL } from '../util';
 
 
 dotenv.config();
@@ -460,7 +460,13 @@ app.use(cors());
 app.use(express.json());
 
 // Initialize quote service
-const quoteService = new QuoteService(ChainId.EDEN_TESTNET);
+const configuredChainId: ChainId = process.env.CHAIN_ID
+  ? ID_TO_CHAIN_ID(Number(process.env.CHAIN_ID))
+  : ChainId.SOMNIA;
+console.log(
+  `Using chainId ${configuredChainId} with RPC ${ID_TO_PROVIDER(configuredChainId)}`
+);
+const quoteService = new QuoteService(configuredChainId);
 let isInitialized = false;
 
 quoteService.initialize()

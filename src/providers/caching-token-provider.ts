@@ -69,6 +69,8 @@ import {
   WMATIC_POLYGON,
   WMATIC_POLYGON_MUMBAI,
   ZONGO_EDEN_TESTNET,
+  USDC_SOMNIA,
+  USDT_SOMNIA,
 } from './token-provider';
 
 // These tokens will added to the Token cache on initialization.
@@ -82,6 +84,11 @@ export const CACHE_SEED_TOKENS: {
     ZONGO: ZONGO_EDEN_TESTNET,
     BTC: BTC_EDEN_TESTNET,
     DOZOUSD: DOZOUSD_EDEN_TESTNET,
+  },
+  [ChainId.SOMNIA]: {
+    WSOMI: WRAPPED_NATIVE_CURRENCY[ChainId.SOMNIA],
+    USDC: USDC_SOMNIA,
+    USDT: USDT_SOMNIA,
   },
   [ChainId.MAINNET]: {
     WETH: WRAPPED_NATIVE_CURRENCY[ChainId.MAINNET]!,

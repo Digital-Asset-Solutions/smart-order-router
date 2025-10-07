@@ -30,6 +30,8 @@ import {
   WLD_WORLDCHAIN,
   WMATIC_POLYGON,
   WMATIC_POLYGON_MUMBAI,
+  USDC_SOMNIA,
+  USDT_SOMNIA,
 } from '../../providers/token-provider';
 import { WRAPPED_NATIVE_CURRENCY } from '../../util/chains';
 
@@ -42,6 +44,7 @@ export const BASES_TO_CHECK_TRADES_AGAINST = (
 ): ChainTokenList => {
   return {
     [ChainId.EDEN_TESTNET]: [WRAPPED_NATIVE_CURRENCY[ChainId.EDEN_TESTNET]!, USDC_EDEN_TESTNET],
+    [ChainId.SOMNIA]: [WRAPPED_NATIVE_CURRENCY[ChainId.SOMNIA]!, USDC_SOMNIA, USDT_SOMNIA],
     [ChainId.MAINNET]: [
       WRAPPED_NATIVE_CURRENCY[ChainId.MAINNET]!,
       DAI_MAINNET,
