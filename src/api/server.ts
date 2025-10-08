@@ -1,7 +1,7 @@
 import { Logger } from '@ethersproject/logger';
 import { JsonRpcProvider } from '@ethersproject/providers';
 import DEFAULT_TOKEN_LIST from '@uniswap/default-token-list';
-import { Protocol } from '@uniswap/router-sdk';
+// import { Protocol } from '@uniswap/router-sdk';
 import { Currency, Percent, TradeType } from '@uniswap/sdk-core';
 import { ChainId, Token } from '@uniswap/sdk-core';
 import cors from 'cors';
@@ -29,6 +29,7 @@ import {
   UniswapMulticallProvider,
   V2PoolProvider,
   V3PoolProvider,
+  V3SubgraphProvider,
   V4PoolProvider,
 } from '../index';
 import { EIP1559GasPriceProvider } from '../providers/eip-1559-gas-price-provider';
@@ -39,7 +40,7 @@ import { FallbackTenderlySimulator } from '../providers/tenderly-simulation-prov
 import { TenderlySimulator } from '../providers/tenderly-simulation-provider';
 import { OnChainTokenFeeFetcher } from '../providers/token-fee-fetcher';
 import { TokenPropertiesProvider } from '../providers/token-properties-provider';
-import { ID_TO_CHAIN_ID, ID_TO_PROVIDER, NATIVE_NAMES_BY_ID, TO_PROTOCOL } from '../util';
+import { ID_TO_CHAIN_ID, ID_TO_PROVIDER, NATIVE_NAMES_BY_ID } from '../util';
 
 
 dotenv.config();
@@ -167,6 +168,7 @@ class QuoteService {
       new V3PoolProvider(this.chainId, multicall2Provider),
       new NodeJSCache(new NodeCache({ stdTTL: 360, useClones: false }))
     );
+    const v3SubgraphProvider = new V3SubgraphProvider(this.chainId);
 
     console.log('💰 Setting up token fee fetcher...');
     const tokenFeeFetcher = new OnChainTokenFeeFetcher(this.chainId, provider);
@@ -225,6 +227,7 @@ class QuoteService {
       provider,
       chainId: this.chainId,
       multicall2Provider: multicall2Provider,
+      v3SubgraphProvider: v3SubgraphProvider,
       gasPriceProvider: new CachingGasStationProvider(
         this.chainId,
         new OnChainGasPriceProvider(
@@ -251,46 +254,40 @@ class QuoteService {
         tokenOut: tokenOutStr,
         amount: amountStr,
         exactIn,
-        exactOut,
         recipient,
-        protocols: protocolsStr,
-        forceCrossProtocol = false,
-        forceMixedRoutes = false,
         simulate = false,
-        debugRouting = true,
-        enableFeeOnTransferFeeFetching = false,
-        requestBlockNumber,
-        gasToken,
         slippageTolerance = 0.5, // Default 0.5% slippage
-        topN = 3,
-        topNTokenInOut = 2,
-        topNSecondHop = 2,
         topNSecondHopForTokenAddressRaw = '',
-        topNWithEachBaseToken = 2,
-        topNWithBaseToken = 6,
-        topNDirectSwaps = 2,
-        maxSwapsPerPath = 3,
-        minSplits = 1,
-        maxSplits = 3,
-        distributionPercent = 5,
+        requestBlockNumber,
+        // protocols: protocolsStr,
+        // forceCrossProtocol = false,
+        // forceMixedRoutes = false,
+        // debugRouting = true,
+        // enableFeeOnTransferFeeFetching = false,
+        // gasToken,
+        // topN = 3,
+        // topNTokenInOut = 2,
+        // topNSecondHop = 2,
+        // topNWithEachBaseToken = 2,
+        // topNWithBaseToken = 6,
+        // topNDirectSwaps = 2,
+        maxSwapsPerPath = 5,
+        // minSplits = 1,
+        // maxSplits = 100,
+        // distributionPercent = 5,
       } = request;
 
-      // Validate input
-      if ((exactIn && exactOut) || (!exactIn && !exactOut)) {
-        throw new Error('Must set either exactIn or exactOut');
-      }
-
       // Parse protocols
-      let protocols: Protocol[] = [];
-      if (protocolsStr) {
-        try {
-          protocols = _.map(protocolsStr.split(','), (protocolStr) =>
-            TO_PROTOCOL(protocolStr)
-          );
-        } catch (err) {
-          throw new Error(`Protocols invalid. Valid options: ${Object.values(Protocol)}`);
-        }
-      }
+      // let protocols: Protocol[] = [];
+      // if (protocolsStr) {
+      //   try {
+      //     protocols = _.map(protocolsStr.split(','), (protocolStr) =>
+      //       TO_PROTOCOL(protocolStr)
+      //     );
+      //   } catch (err) {
+      //     throw new Error(`Protocols invalid. Valid options: ${Object.values(Protocol)}`);
+      //   }
+      // }
 
       // Parse topNSecondHopForTokenAddress
       const topNSecondHopForTokenAddress = new MapWithLowerCaseKey<number>();
@@ -332,28 +329,32 @@ class QuoteService {
               }
             : undefined,
           {
-            // Use the caller-provided block number if any; otherwise let the router use latest.
             blockNumber: requestBlockNumber,
-            v3PoolSelection: {
-              topN,
-              topNTokenInOut,
-              topNSecondHop,
-              topNSecondHopForTokenAddress,
-              topNWithEachBaseToken,
-              topNWithBaseToken,
-              topNDirectSwaps,
-            },
             maxSwapsPerPath,
-            minSplits,
-            maxSplits,
-            distributionPercent,
-            protocols,
-            forceCrossProtocol,
-            forceMixedRoutes,
-            debugRouting,
-            enableFeeOnTransferFeeFetching,
-            gasToken,
           }
+          // {
+          //   // Use the caller-provided block number if any; otherwise let the router use latest.
+          //   blockNumber: requestBlockNumber,
+          //   v3PoolSelection: {
+          //     topN,
+          //     topNTokenInOut,
+          //     topNSecondHop,
+          //     topNSecondHopForTokenAddress,
+          //     topNWithEachBaseToken,
+          //     topNWithBaseToken,
+          //     topNDirectSwaps,
+          //   },
+          //   maxSwapsPerPath,
+          //   minSplits,
+          //   maxSplits,
+          //   distributionPercent,
+          //   protocols,
+          //   forceCrossProtocol,
+          //   forceMixedRoutes,
+          //   debugRouting,
+          //   enableFeeOnTransferFeeFetching,
+          //   gasToken,
+          // }
         );
       } else {
         const amountOut = parseAmount(amountStr, tokenOut);
@@ -364,33 +365,38 @@ class QuoteService {
           recipient
             ? {
                 type: SwapType.SWAP_ROUTER_02,
-                deadline: toInteger((new Date().getTime() + 1000 * 60) / 1000), // 1 minute
+                deadline: toInteger((new Date().getTime() + 1000 * 60 * 10) / 1000), // 10 minutes
                 recipient,
                 slippageTolerance: new Percent(Math.floor(slippageTolerance * 100), 10_000),
+                simulate: simulate ? { fromAddress: recipient } : undefined,
               }
             : undefined,
           {
             blockNumber: requestBlockNumber,
-            v3PoolSelection: {
-              topN,
-              topNTokenInOut,
-              topNSecondHop,
-              topNSecondHopForTokenAddress,
-              topNWithEachBaseToken,
-              topNWithBaseToken,
-              topNDirectSwaps,
-            },
             maxSwapsPerPath,
-            minSplits,
-            maxSplits,
-            distributionPercent,
-            protocols,
-            forceCrossProtocol,
-            forceMixedRoutes,
-            debugRouting,
-            enableFeeOnTransferFeeFetching,
-            gasToken,
           }
+          // {
+          //   blockNumber: requestBlockNumber,
+          //   v3PoolSelection: {
+          //     topN,
+          //     topNTokenInOut,
+          //     topNSecondHop,
+          //     topNSecondHopForTokenAddress,
+          //     topNWithEachBaseToken,
+          //     topNWithBaseToken,
+          //     topNDirectSwaps,
+          //   },
+          //   maxSwapsPerPath,
+          //   minSplits,
+          //   maxSplits,
+          //   distributionPercent,
+          //   protocols,
+          //   forceCrossProtocol,
+          //   forceMixedRoutes,
+          //   debugRouting,
+          //   enableFeeOnTransferFeeFetching,
+          //   gasToken,
+          // }
         );
       }
 

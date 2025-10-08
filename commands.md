@@ -5,8 +5,8 @@ DUSD DAI
 WETH ZANGO
 ./bin/cli quote --tokenIn 0x0d3597CD03a42e523CF6ebB56b216b9c2b6EF6a2 --tokenOut 0xdb408CBbb11938f0bADb3eFA998631F85C114D4B --amount 1 --exactIn --minSplits 1 --protocols v3 --router legacy --chainId 3735928814 --debug --simulate
 
-BTC ZANGO
-./bin/cli quote --tokenIn 0xaBd9cf1Bc5bCb7C1927BF4dECF44789644877e09 --tokenOut 0xdb408CBbb11938f0bADb3eFA998631F85C114D4B --amount 0.01 --exactIn --minSplits 1 --protocols v3 --router alpha --chainId 3735928814 --debug --recipient 0x7554ee28c15e61D9B3CEbcC9F5CAcE7742830B05
+CUSTOMS
+./bin/cli quote --tokenIn 0xa9349a683ff45daeadc73dc9b5852b88fd569c41 --tokenOut 0xfe5ae2bc9a2322f165383ec85b8b1fdc0fb2e07e --amount 1 --exactIn --minSplits 1 --protocols v3 --router alpha --chainId 3735928814 --debug --recipient 0x7554ee28c15e61D9B3CEbcC9F5CAcE7742830B05
 
 curl -X POST http://localhost:3000/quote \
   -H "Content-Type: application/json" \
