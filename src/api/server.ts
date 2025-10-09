@@ -178,7 +178,7 @@ class QuoteService {
       // Primary: cached live subgraph with longer TTL (5 minutes) to avoid repeated slow queries
       new CachingV3SubgraphProvider(
         this.chainId,
-        new V3SubgraphProvider(this.chainId, 2, 45000), // Higher timeout for subgraph
+        new V3SubgraphProvider(this.chainId, 3, 45000), // Higher timeout for subgraph
         new NodeJSCache(new NodeCache({ stdTTL: 300, useClones: false })) // 5 minute cache
       ),
       // Fallback: static provider for common token pairs (fast but limited)
@@ -346,6 +346,14 @@ class QuoteService {
           {
             blockNumber: requestBlockNumber,
             maxSwapsPerPath,
+            v3PoolSelection: {
+              topN: 3,                    // Total pools to consider
+              topNDirectSwaps: 2,         // Direct swap pools
+              topNTokenInOut: 2,          // Token-in/out specific pools
+              topNSecondHop: 1,           // Second hop pools
+              topNWithEachBaseToken: 3,   // Pools with each base token
+              topNWithBaseToken: 3,       // Pools with base tokens
+            },
           }
           // {
           //   // Use the caller-provided block number if any; otherwise let the router use latest.
@@ -389,6 +397,14 @@ class QuoteService {
           {
             blockNumber: requestBlockNumber,
             maxSwapsPerPath,
+            v3PoolSelection: {
+              topN: 3,                    // Total pools to consider
+              topNDirectSwaps: 2,         // Direct swap pools
+              topNTokenInOut: 2,          // Token-in/out specific pools
+              topNSecondHop: 1,           // Second hop pools
+              topNWithEachBaseToken: 3,   // Pools with each base token
+              topNWithBaseToken: 3,       // Pools with base tokens
+            },
           }
           // {
           //   blockNumber: requestBlockNumber,
