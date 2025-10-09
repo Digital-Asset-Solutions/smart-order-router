@@ -40,6 +40,9 @@ import { FallbackTenderlySimulator } from '../providers/tenderly-simulation-prov
 import { TenderlySimulator } from '../providers/tenderly-simulation-provider';
 import { OnChainTokenFeeFetcher } from '../providers/token-fee-fetcher';
 import { TokenPropertiesProvider } from '../providers/token-properties-provider';
+import { CachingV3SubgraphProvider } from '../providers/v3/caching-subgraph-provider';
+import { StaticV3SubgraphProvider } from '../providers/v3/static-subgraph-provider';
+import { V3SubgraphProviderWithFallBacks } from '../providers/v3/subgraph-provider-with-fallback';
 import { ID_TO_CHAIN_ID, ID_TO_PROVIDER, NATIVE_NAMES_BY_ID } from '../util';
 
 
@@ -168,7 +171,19 @@ class QuoteService {
       new V3PoolProvider(this.chainId, multicall2Provider),
       new NodeJSCache(new NodeCache({ stdTTL: 360, useClones: false }))
     );
-    const v3SubgraphProvider = new V3SubgraphProvider(this.chainId);
+
+    console.log('📊 Setting up optimized V3 subgraph provider...');
+    // Use optimized approach: cached live subgraph with longer TTL + static fallback
+    const v3SubgraphProvider = new V3SubgraphProviderWithFallBacks([
+      // Primary: cached live subgraph with longer TTL (5 minutes) to avoid repeated slow queries
+      new CachingV3SubgraphProvider(
+        this.chainId,
+        new V3SubgraphProvider(this.chainId, 2, 45000), // Higher timeout for subgraph
+        new NodeJSCache(new NodeCache({ stdTTL: 300, useClones: false })) // 5 minute cache
+      ),
+      // Fallback: static provider for common token pairs (fast but limited)
+      new StaticV3SubgraphProvider(this.chainId, v3PoolProvider),
+    ]);
 
     console.log('💰 Setting up token fee fetcher...');
     const tokenFeeFetcher = new OnChainTokenFeeFetcher(this.chainId, provider);
