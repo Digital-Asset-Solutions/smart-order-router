@@ -1,4 +1,4 @@
-FROM node:20-bullseye
+FROM node:22-bullseye
 
 # Build tools for node-gyp dependencies (keccak, secp256k1, etc.)
 RUN apt-get update && apt-get install -y \
