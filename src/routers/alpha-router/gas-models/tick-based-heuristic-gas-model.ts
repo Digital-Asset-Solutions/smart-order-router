@@ -19,6 +19,7 @@ import {
   getQuoteThroughNativePool,
   IGasModel,
   IOnChainGasModelFactory,
+  usdGasTokensByChain,
 } from './gas-model';
 
 export abstract class TickBasedHeuristicGasModelFactory<
@@ -46,7 +47,7 @@ export abstract class TickBasedHeuristicGasModelFactory<
       ? await l2GasDataProvider.getGasData(providerConfig)
       : undefined;
 
-    const usdPool: Pool = pools.usdPool;
+    const usdPool: Pool | null = pools.usdPool;
 
     const calculateL1GasFees = async (
       route: TRouteWithValidQuote[]
@@ -56,6 +57,17 @@ export abstract class TickBasedHeuristicGasModelFactory<
       gasCostL1USD: CurrencyAmount;
       gasCostL1QuoteToken: CurrencyAmount;
     }> => {
+      if (!usdPool) {
+        return {
+          gasUsedL1: BigNumber.from(0),
+          gasUsedL1OnL2: BigNumber.from(0),
+          gasCostL1USD: CurrencyAmount.fromRawAmount(
+            usdGasTokensByChain[chainId]?.[0] ?? quoteToken,
+            0
+          ),
+          gasCostL1QuoteToken: CurrencyAmount.fromRawAmount(quoteToken, 0),
+        };
+      }
       return await calculateL1GasFeesHelper(
         route,
         chainId,
@@ -74,9 +86,11 @@ export abstract class TickBasedHeuristicGasModelFactory<
       nativeAmountPool = pools.nativeAndAmountTokenV3Pool;
     }
 
-    const usdToken = usdPool.token0.equals(nativeCurrency)
-      ? usdPool.token1
-      : usdPool.token0;
+    const usdToken = usdPool
+      ? usdPool.token0.equals(nativeCurrency)
+        ? usdPool.token1
+        : usdPool.token0
+      : quoteToken;
 
     const estimateGasCost = (
       routeWithValidQuote: TRouteWithValidQuote
@@ -97,11 +111,13 @@ export abstract class TickBasedHeuristicGasModelFactory<
       // We only need to go through V2 and V3 USD pools for now,
       // because v4 pools don't have deep liquidity yet.
       // If one day, we see v3 usd pools have much deeper liquidity than v2/v3 usd pools, then we will add v4 pools for gas cost
-      const gasCostInTermsOfUSD = getQuoteThroughNativePool(
-        chainId,
-        totalGasCostNativeCurrency,
-        usdPool
-      );
+      const gasCostInTermsOfUSD = usdPool
+        ? getQuoteThroughNativePool(
+            chainId,
+            totalGasCostNativeCurrency,
+            usdPool
+          )
+        : CurrencyAmount.fromRawAmount(usdToken, 0);
 
       /** ------ MARK: Conditional logic run if gasToken is specified  -------- */
       const nativeAndSpecifiedGasTokenPool: Pool | null =

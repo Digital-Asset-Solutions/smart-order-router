@@ -6,6 +6,7 @@ import { log, WRAPPED_NATIVE_CURRENCY } from '../util';
 import { ICache } from './cache';
 import {
   BTC_BNB,
+  BTC_EDEN,
   BTC_EDEN_TESTNET,
   BUSD_BNB,
   CELO,
@@ -28,8 +29,11 @@ import {
   DAI_UNICHAIN,
   DOZOUSD_EDEN_TESTNET,
   ETH_BNB,
+  ETH_EDEN,
+  eUSD_EDEN,
   FAKE_WETH_EDEN_TESTNET,
   ITokenProvider,
+  SOL_EDEN,
   TokenAccessor,
   USDB_BLAST,
   USDC_ARBITRUM,
@@ -48,6 +52,7 @@ import {
   USDC_OPTIMISM_SEPOLIA,
   USDC_POLYGON,
   USDC_SEPOLIA,
+  USDC_SOMNIA,
   USDC_SONEIUM,
   USDC_UNICHAIN,
   USDC_WORLDCHAIN,
@@ -58,6 +63,7 @@ import {
   USDT_OPTIMISM,
   USDT_OPTIMISM_GOERLI,
   USDT_OPTIMISM_SEPOLIA,
+  USDT_SOMNIA,
   WBTC_ARBITRUM,
   WBTC_MAINNET,
   WBTC_MOONBEAM,
@@ -69,14 +75,19 @@ import {
   WMATIC_POLYGON,
   WMATIC_POLYGON_MUMBAI,
   ZONGO_EDEN_TESTNET,
-  USDC_SOMNIA,
-  USDT_SOMNIA,
 } from './token-provider';
 
 // These tokens will added to the Token cache on initialization.
 export const CACHE_SEED_TOKENS: {
   [chainId in ChainId]?: { [symbol: string]: Token };
 } = {
+  [ChainId.EDEN]: {
+    WETH: WRAPPED_NATIVE_CURRENCY[ChainId.EDEN]!,
+    eUSD: eUSD_EDEN,
+    ETH: ETH_EDEN,
+    SOL: SOL_EDEN,
+    BTC: BTC_EDEN,
+  },    
   [ChainId.EDEN_TESTNET]: {
     WETH: WRAPPED_NATIVE_CURRENCY[ChainId.EDEN_TESTNET]!,
     USDC: USDC_EDEN_TESTNET,

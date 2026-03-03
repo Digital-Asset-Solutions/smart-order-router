@@ -11,6 +11,7 @@ import { ProviderConfig } from '../provider';
 import {
   ARB_ARBITRUM,
   BTC_BNB,
+  BTC_EDEN,
   BTC_EDEN_TESTNET,
   BUSD_BNB,
   CELO,
@@ -33,7 +34,10 @@ import {
   DAI_UNICHAIN,
   DOZOUSD_EDEN_TESTNET,
   ETH_BNB,
+  ETH_EDEN,
+  eUSD_EDEN,
   OP_OPTIMISM,
+  SOL_EDEN,
   USDB_BLAST,
   USDC_ARBITRUM,
   USDC_ARBITRUM_GOERLI,
@@ -50,6 +54,7 @@ import {
   USDC_OPTIMISM_GOERLI,
   USDC_POLYGON,
   USDC_SEPOLIA,
+  USDC_SOMNIA,
   USDC_SONEIUM,
   USDC_UNICHAIN,
   USDC_UNICHAIN_SEPOLIA,
@@ -63,6 +68,7 @@ import {
   USDT_MONAD_TESTNET,
   USDT_OPTIMISM,
   USDT_OPTIMISM_GOERLI,
+  USDT_SOMNIA,
   WBTC_ARBITRUM,
   WBTC_GNOSIS,
   WBTC_GOERLI,
@@ -78,8 +84,6 @@ import {
   WSTETH_MAINNET,
   WXDAI_GNOSIS,
   ZONGO_EDEN_TESTNET,
-  USDC_SOMNIA,
-  USDT_SOMNIA,
 } from '../token-provider';
 
 import { IV3PoolProvider } from './pool-provider';
@@ -226,7 +230,15 @@ const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
     USDC_SOMNIA,
     USDT_SOMNIA,
   ],
+  [ChainId.EDEN]: [
+    WRAPPED_NATIVE_CURRENCY[ChainId.EDEN]!,
+    eUSD_EDEN,
+    ETH_EDEN,
+    SOL_EDEN,
+    BTC_EDEN,
+  ],
 };
+
 
 /**
  * Provider that uses a hardcoded list of V3 pools to generate a list of subgraph pools.

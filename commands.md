@@ -24,3 +24,7 @@ curl -X POST http://localhost:3000/quote \
 
 
 cd /Users/anthoy/DAS/uniswap-fork/smart-order-router/sdks && yarn install --inline-builds && yarn sdk @uniswap/sdk-core build && yarn sdk @uniswap/v2-sdk build && yarn sdk @uniswap/v3-sdk build && yarn sdk @uniswap/v4-sdk build && yarn sdk @uniswap/router-sdk build && yarn sdk @uniswap/permit2-sdk build && yarn sdk @uniswap/universal-router-sdk build
+
+EDEN:
+
+./bin/cli quote --tokenIn 0x37a471853A4313F4b679Ab701a224E8D73D70946 --tokenOut 0x520dF9dfA5E670B7886aCF74E7Db9402c8aB3C90 --amount 1 --exactIn --minSplits 1 --protocols v3 --router alpha --chainId 714

@@ -1,6 +1,6 @@
 import { BigNumber } from '@ethersproject/bignumber';
 import { Protocol } from '@uniswap/router-sdk';
-import { ChainId, TradeType } from '@uniswap/sdk-core';
+import { ChainId, Token, TradeType } from '@uniswap/sdk-core';
 import JSBI from 'jsbi';
 import _ from 'lodash';
 import FixedReverseHeap from 'mnemonist/fixed-reverse-heap';
@@ -500,15 +500,7 @@ export async function getBestSwapRouteBy(
       BigNumber.from(0)
     );
 
-  if (!usdGasTokensByChain[chainId] || !usdGasTokensByChain[chainId]![0]) {
-    // Each route can use a different stablecoin to account its gas costs.
-    // They should all be pegged, and this is just an estimate, so we do a merge
-    // to an arbitrary stable.
-    throw new Error(
-      `Could not find a USD token for computing gas costs on ${chainId}`
-    );
-  }
-  const usdToken = usdGasTokensByChain[chainId]![0]!;
+  const usdToken: Token = usdGasTokensByChain[chainId]?.[0] ?? bestSwap[0]!.quoteToken;
   const usdTokenDecimals = usdToken.decimals;
 
   // if on L2, calculate the L1 security fee

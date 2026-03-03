@@ -117,14 +117,15 @@ export async function getHighestLiquidityV3USDPool(
   chainId: ChainId,
   poolProvider: IV3PoolProvider,
   providerConfig?: GasModelProviderConfig
-): Promise<Pool> {
+): Promise<Pool | null> {
   const usdTokens = usdGasTokensByChain[chainId];
   const wrappedCurrency = WRAPPED_NATIVE_CURRENCY[chainId]!;
 
   if (!usdTokens) {
-    throw new Error(
-      `Could not find a USD token for computing gas costs on ${chainId}`
+    log.info(
+      `No USD tokens configured for chain ${chainId}, skipping gas cost computation in USD.`
     );
+    return null;
   }
 
   const feeAmounts = getApplicableV3FeeAmounts(chainId);
@@ -158,9 +159,11 @@ export async function getHighestLiquidityV3USDPool(
     .value();
 
   if (pools.length == 0) {
-    const message = `Could not find a USD/${wrappedCurrency.symbol} pool for computing gas costs.`;
-    log.error({ pools }, message);
-    throw new Error(message);
+    log.info(
+      { pools },
+      `Could not find a USD/${wrappedCurrency.symbol} pool for computing gas costs. Proceeding without USD gas cost estimate.`
+    );
+    return null;
   }
 
   const maxPool = pools.reduce((prev, current) => {
@@ -282,18 +285,19 @@ export async function calculateGasUsed(
     gasCostInWei
   );
 
-  const usdPool: Pool = await getHighestLiquidityV3USDPool(
+  const usdPool: Pool | null = await getHighestLiquidityV3USDPool(
     chainId,
     v3PoolProvider,
     providerConfig
   );
 
   /** ------ MARK: USD logic  -------- */
-  const gasCostUSD = getQuoteThroughNativePool(
-    chainId,
-    costNativeCurrency,
-    usdPool
-  );
+  const gasCostUSD = usdPool
+    ? getQuoteThroughNativePool(chainId, costNativeCurrency, usdPool)
+    : CurrencyAmount.fromRawAmount(
+        usdGasTokensByChain[chainId]?.[0] ?? quoteToken,
+        0
+      );
 
   /** ------ MARK: Conditional logic run if gasToken is specified  -------- */
   let gasCostInTermsOfGasToken: CurrencyAmount | undefined = undefined;
@@ -547,7 +551,7 @@ export function initSwapRouteFromExisting(
 export const calculateL1GasFeesHelper = async (
   route: RouteWithValidQuote[],
   chainId: ChainId,
-  usdPool: Pair | Pool,
+  usdPool: Pair | Pool | null,
   quoteToken: Token,
   nativePool: Pair | Pool | null,
   provider: BaseProvider,
@@ -598,11 +602,12 @@ export const calculateL1GasFeesHelper = async (
   );
 
   // convert fee into usd
-  const gasCostL1USD: CurrencyAmount = getQuoteThroughNativePool(
-    chainId,
-    costNativeCurrency,
-    usdPool
-  );
+  const gasCostL1USD: CurrencyAmount = usdPool
+    ? getQuoteThroughNativePool(chainId, costNativeCurrency, usdPool)
+    : CurrencyAmount.fromRawAmount(
+        usdGasTokensByChain[chainId]?.[0] ?? quoteToken,
+        0
+      );
 
   let gasCostL1QuoteToken = costNativeCurrency;
   // if the inputted token is not in the native currency, quote a native/quote token pool to get the gas cost in terms of the quote token

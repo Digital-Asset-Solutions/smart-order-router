@@ -23,6 +23,7 @@ import {
   DAI_SEPOLIA,
   DAI_UNICHAIN,
   DAI_ZKSYNC,
+  eUSD_EDEN,
   USDB_BLAST,
   USDC_ARBITRUM,
   USDC_ARBITRUM_GOERLI,
@@ -49,6 +50,7 @@ import {
   USDC_OPTIMISM_SEPOLIA,
   USDC_POLYGON,
   USDC_SEPOLIA,
+  USDC_SOMNIA,
   USDC_SONEIUM,
   USDC_UNICHAIN,
   USDC_UNICHAIN_SEPOLIA,
@@ -65,9 +67,8 @@ import {
   USDT_OPTIMISM,
   USDT_OPTIMISM_GOERLI,
   USDT_OPTIMISM_SEPOLIA,
-  WBTC_GOERLI,
-  USDC_SOMNIA,
   USDT_SOMNIA,
+  WBTC_GOERLI,
 } from '../../../providers/token-provider';
 import { IV2PoolProvider } from '../../../providers/v2/pool-provider';
 import {
@@ -88,6 +89,7 @@ import {
 // from tokens with highest decimals to lowest decimals. For example,
 // DAI_AVAX has 18 decimals and comes before USDC_AVAX which has 6 decimals.
 export const usdGasTokensByChain: { [chainId in ChainId]?: Token[] } = {
+  [ChainId.EDEN]: [eUSD_EDEN],
   [ChainId.EDEN_TESTNET]: [USDC_EDEN_TESTNET],
   [ChainId.SOMNIA]: [USDC_SOMNIA, USDT_SOMNIA],
   [ChainId.MAINNET]: [DAI_MAINNET, USDC_MAINNET, USDT_MAINNET],
@@ -179,7 +181,7 @@ export type BuildV2GasModelFactoryType = {
 };
 
 export type LiquidityCalculationPools = {
-  usdPool: Pool;
+  usdPool: Pool | null;
   nativeAndQuoteTokenV3Pool: Pool | null;
   nativeAndAmountTokenV3Pool: Pool | null;
   nativeAndSpecifiedGasTokenV3Pool: Pool | null;

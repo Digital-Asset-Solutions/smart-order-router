@@ -60,10 +60,12 @@ export class MixedRouteHeuristicGasModelFactory extends IOnChainGasModelFactory<
     IGasModel<MixedRouteWithValidQuote>
   > {
     const nativeCurrency = WRAPPED_NATIVE_CURRENCY[chainId]!;
-    const usdPool: V3Pool = pools.usdPool;
-    const usdToken = usdPool.token0.equals(nativeCurrency)
-      ? usdPool.token1
-      : usdPool.token0;
+    const usdPool: V3Pool | null = pools.usdPool;
+    const usdToken = usdPool
+      ? usdPool.token0.equals(nativeCurrency)
+        ? usdPool.token1
+        : usdPool.token0
+      : quoteToken;
 
     let nativeV2Pool: Pair | null;
     // Avoid fetching for a (WETH,WETH) pool here, we handle the quoteToken = wrapped native case in estimateGasCost
@@ -92,11 +94,9 @@ export class MixedRouteHeuristicGasModelFactory extends IOnChainGasModelFactory<
       );
 
       /** ------ MARK: USD Logic -------- */
-      const gasCostInTermsOfUSD = getQuoteThroughNativePool(
-        chainId,
-        totalGasCostNativeCurrency,
-        usdPool
-      );
+      const gasCostInTermsOfUSD = usdPool
+        ? getQuoteThroughNativePool(chainId, totalGasCostNativeCurrency, usdPool)
+        : CurrencyAmount.fromRawAmount(usdToken, 0);
 
       /** ------ MARK: Conditional logic run if gasToken is specified  -------- */
       const nativeAndSpecifiedGasTokenPool: V3Pool | null =

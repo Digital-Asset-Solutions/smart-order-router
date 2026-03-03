@@ -869,6 +869,39 @@ export const USDT_SOMNIA = new Token(
   'USDT Token'
 );
 
+export const eUSD_EDEN = new Token(
+  ChainId.EDEN,
+  '0xF4e644772b17b6c57327F4D111a73D68C8cC731B',
+  18,
+  'eUSD',
+  'eUSD'
+);
+
+export const ETH_EDEN = new Token(
+  ChainId.EDEN,
+  '0x23958cBa555AC52C9495Df9b121ff73003e39dBb',
+  18,
+  'ETH',
+  'ETH'
+);
+
+export const SOL_EDEN = new Token(
+  ChainId.EDEN,
+  '0x16eD50F96ea655Cb03638d7054e62e42Afb7b4fA',
+  9,
+  'SOL',
+  'SOL'
+);
+
+export const BTC_EDEN = new Token(
+  ChainId.EDEN,
+  '0xFA3198ecF05303a6d96E57a45E6c815055D255b1',
+  8,
+  'BTC',
+  'BTC'
+);
+
+
 export class TokenProvider implements ITokenProvider {
   constructor(
     private chainId: ChainId,
@@ -1180,6 +1213,8 @@ export const USDC_ON = (chainId: ChainId): Token => {
       return USDC_UNICHAIN;
     case ChainId.SONEIUM:
       return USDC_SONEIUM;
+    case ChainId.EDEN:
+      return eUSD_EDEN;
     default:
       throw new Error(`Chain id: ${chainId} not supported`);
   }

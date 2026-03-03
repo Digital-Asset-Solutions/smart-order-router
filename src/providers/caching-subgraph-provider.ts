@@ -9,6 +9,7 @@ import { ProviderConfig } from './provider';
 import {
   ARB_ARBITRUM,
   BTC_BNB,
+  BTC_EDEN,
   BTC_EDEN_TESTNET,
   BUSD_BNB,
   CELO,
@@ -24,7 +25,10 @@ import {
   DAI_UNICHAIN,
   DOZOUSD_EDEN_TESTNET,
   ETH_BNB,
+  ETH_EDEN,
+  eUSD_EDEN,
   OP_OPTIMISM,
+  SOL_EDEN,
   USDB_BLAST,
   USDC_ARBITRUM,
   USDC_AVAX,
@@ -37,6 +41,7 @@ import {
   USDC_NATIVE_ARBITRUM,
   USDC_OPTIMISM,
   USDC_POLYGON,
+  USDC_SOMNIA,
   USDC_SONEIUM,
   USDC_UNICHAIN,
   USDC_UNICHAIN_SEPOLIA,
@@ -48,6 +53,7 @@ import {
   USDT_MAINNET,
   USDT_MONAD_TESTNET,
   USDT_OPTIMISM,
+  USDT_SOMNIA,
   WBTC_ARBITRUM,
   WBTC_MAINNET,
   WBTC_MOONBEAM,
@@ -58,8 +64,6 @@ import {
   WMATIC_POLYGON,
   WSTETH_MAINNET,
   ZONGO_EDEN_TESTNET,
-  USDC_SOMNIA,
-  USDT_SOMNIA,
 } from './token-provider';
 import { V3SubgraphPool } from './v3/subgraph-provider';
 
@@ -68,6 +72,14 @@ type ChainTokenList = {
 };
 
 export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
+  [ChainId.EDEN]: [
+    nativeOnChain(ChainId.EDEN),
+    WRAPPED_NATIVE_CURRENCY[ChainId.EDEN]!,
+    eUSD_EDEN,
+    ETH_EDEN,
+    SOL_EDEN,
+    BTC_EDEN,
+  ],  
   [ChainId.EDEN_TESTNET]: [
     nativeOnChain(ChainId.EDEN_TESTNET),
     WRAPPED_NATIVE_CURRENCY[ChainId.EDEN_TESTNET]!,

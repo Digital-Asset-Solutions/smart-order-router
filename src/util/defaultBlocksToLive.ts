@@ -48,4 +48,5 @@ export const DEFAULT_BLOCKS_TO_LIVE: { [chain in ChainId]: number } = {
   [ChainId.SONEIUM]: 3600,
   [ChainId.EDEN_TESTNET]: 3600,
   [ChainId.SOMNIA]: 3600,
+  [ChainId.EDEN]: 3600,
 };

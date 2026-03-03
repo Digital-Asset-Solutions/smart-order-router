@@ -64,6 +64,8 @@ const SUBGRAPH_URL_BY_CHAIN: { [chainId in ChainId]?: string } = {
     'https://api.goldsky.com/api/public/project_cmfv8bj7kvt5b01xyc3ixbole/subgraphs/eden-testnet-v3-subgraph/1.0.0/gn',
   [ChainId.SOMNIA]:
     'https://api.subgraph.somnia.network/api/public/eba83aa2-ee9c-418a-96d8-838bcf96c8f0/subgraphs/somnia-v3/v0.0.1/gn',
+  [ChainId.EDEN]:
+    'https://api.goldsky.com/api/public/project_cmfv8bj7kvt5b01xyc3ixbole/subgraphs/eden-v3-subgraph/1.0.0/gn',
 };
 
 /**

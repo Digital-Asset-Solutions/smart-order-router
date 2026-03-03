@@ -34,6 +34,7 @@ export const SUPPORTED_CHAINS: ChainId[] = [
   ChainId.SONEIUM,
   ChainId.EDEN_TESTNET,
   ChainId.SOMNIA,
+  ChainId.EDEN,
   // Gnosis and Moonbeam don't yet have contracts deployed yet
 ];
 
@@ -175,6 +176,8 @@ export const ID_TO_CHAIN_ID = (id: number): ChainId => {
       return ChainId.EDEN_TESTNET;
     case 5031:
       return ChainId.SOMNIA;
+    case 714:
+      return ChainId.EDEN;
     default:
       throw new Error(`Unknown chain id: ${id}`);
   }
@@ -211,6 +214,7 @@ export enum ChainName {
   SONEIUM = 'soneium-mainnet',
   EDEN_TESTNET = 'eden-testnet',
   SOMNIA = 'somnia-mainnet',
+  EDEN = 'eden-mainnet',
 }
 
 export enum NativeCurrencyName {
@@ -223,8 +227,9 @@ export enum NativeCurrencyName {
   BNB = 'BNB',
   AVALANCHE = 'AVAX',
   MONAD = 'MON',
-  EDEN = 'ETH',
+  EDEN_TESTNET = 'ETH',
   SOMNIA = 'SOMI',
+  EDEN = 'TIA',
 }
 
 export const NATIVE_NAMES_BY_ID: { [chainId: number]: string[] } = {
@@ -348,6 +353,11 @@ export const NATIVE_NAMES_BY_ID: { [chainId: number]: string[] } = {
     'SOMNIA',
     '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
   ],
+  [ChainId.EDEN]: [
+    'TIA',
+    'TIA',
+    '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+  ],
 };
 
 export const NATIVE_CURRENCY: { [chainId: number]: NativeCurrencyName } = {
@@ -380,6 +390,7 @@ export const NATIVE_CURRENCY: { [chainId: number]: NativeCurrencyName } = {
   [ChainId.SONEIUM]: NativeCurrencyName.ETHER,
   [ChainId.EDEN_TESTNET]: NativeCurrencyName.ETHER,
   [ChainId.SOMNIA]: NativeCurrencyName.SOMNIA,
+  [ChainId.EDEN]: NativeCurrencyName.EDEN,
 };
 
 export const ID_TO_NETWORK_NAME = (id: number): ChainName => {
@@ -444,6 +455,8 @@ export const ID_TO_NETWORK_NAME = (id: number): ChainName => {
       return ChainName.EDEN_TESTNET;
     case 5031:
       return ChainName.SOMNIA;
+    case 714:
+      return ChainName.EDEN;
     default:
       throw new Error(`Unknown chain id: ${id}`);
   }
@@ -509,6 +522,8 @@ export const ID_TO_PROVIDER = (id: ChainId): string => {
       return process.env.JSON_RPC_PROVIDER_SONEIUM!;
     case ChainId.SOMNIA:
       return process.env.JSON_RPC_PROVIDER_SOMNIA!;
+    case ChainId.EDEN:
+      return process.env.JSON_RPC_PROVIDER_EDEN!;
     default:
       throw new Error(`Chain id: ${id} not supported`);
   }
@@ -740,6 +755,13 @@ export const WRAPPED_NATIVE_CURRENCY: { [chainId in ChainId]: Token } = {
     18,
     'SOMI',
     'Wrapped SOMI'
+  ),
+  [ChainId.EDEN]: new Token(
+    ChainId.EDEN,
+    '0x00000000000000000000000000000000ce1E571a',
+    18,
+    'WTIA',
+    'Wrapped TIA'
   ),
 };
 

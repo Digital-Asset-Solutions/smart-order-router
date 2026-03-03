@@ -3,12 +3,16 @@ import { ChainId, Token } from '@uniswap/sdk-core';
 
 import {
   BTC_BNB,
+  BTC_EDEN,
   BUSD_BNB,
   DAI_AVAX,
   DAI_BNB,
   DAI_MAINNET,
   DAI_UNICHAIN,
+  ETH_EDEN,
+  eUSD_EDEN,
   ITokenProvider,
+  SOL_EDEN,
   USDB_BLAST,
   USDC_AVAX,
   USDC_BASE,
@@ -16,6 +20,7 @@ import {
   USDC_BNB,
   USDC_EDEN_TESTNET,
   USDC_MAINNET,
+  USDC_SOMNIA,
   USDC_SONEIUM,
   USDC_UNICHAIN,
   USDC_UNICHAIN_SEPOLIA,
@@ -25,13 +30,12 @@ import {
   USDT_BNB,
   USDT_MAINNET,
   USDT_MONAD_TESTNET,
+  USDT_SOMNIA,
   WBTC_MAINNET,
   WBTC_WORLDCHAIN,
   WLD_WORLDCHAIN,
   WMATIC_POLYGON,
   WMATIC_POLYGON_MUMBAI,
-  USDC_SOMNIA,
-  USDT_SOMNIA,
 } from '../../providers/token-provider';
 import { WRAPPED_NATIVE_CURRENCY } from '../../util/chains';
 
@@ -43,6 +47,7 @@ export const BASES_TO_CHECK_TRADES_AGAINST = (
   _tokenProvider: ITokenProvider
 ): ChainTokenList => {
   return {
+    [ChainId.EDEN]: [WRAPPED_NATIVE_CURRENCY[ChainId.EDEN]!, eUSD_EDEN, ETH_EDEN, SOL_EDEN, BTC_EDEN],
     [ChainId.EDEN_TESTNET]: [WRAPPED_NATIVE_CURRENCY[ChainId.EDEN_TESTNET]!, USDC_EDEN_TESTNET],
     [ChainId.SOMNIA]: [WRAPPED_NATIVE_CURRENCY[ChainId.SOMNIA]!, USDC_SOMNIA, USDT_SOMNIA],
     [ChainId.MAINNET]: [
