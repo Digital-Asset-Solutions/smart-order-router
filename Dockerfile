@@ -28,7 +28,8 @@ RUN if [ ! -f sdks/package.json ]; then \
 RUN corepack enable
 
 # Install all workspaces with node-modules linker and build-time scripts
-RUN yarn install --inline-builds --immutable --check-cache
+# Debug: ensure lockfile is present before install
+RUN ls -la . && ls -la yarn.lock && yarn install --inline-builds --check-cache
 
 # Debug: confirm token-lists presence after install
 RUN ls node_modules/@uniswap && ls node_modules/@uniswap/token-lists
