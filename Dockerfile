@@ -28,7 +28,10 @@ RUN if [ ! -f sdks/package.json ]; then \
 RUN corepack enable
 
 # Install all workspaces with node-modules linker and build-time scripts
-RUN yarn install --inline-builds
+RUN yarn install --inline-builds --immutable --check-cache
+
+# Debug: confirm token-lists presence after install
+RUN ls node_modules/@uniswap && ls node_modules/@uniswap/token-lists
 
 # Build local sdks, delete node_modules after to avoid conflicts
 RUN cd ./sdks && yarn install --inline-builds && yarn sdk @uniswap/sdk-core build && yarn sdk @uniswap/v2-sdk build && yarn sdk @uniswap/v3-sdk build && yarn sdk @uniswap/v4-sdk build && yarn sdk @uniswap/router-sdk build && yarn sdk @uniswap/permit2-sdk build && yarn sdk @uniswap/universal-router-sdk build && rm -rf node_modules
